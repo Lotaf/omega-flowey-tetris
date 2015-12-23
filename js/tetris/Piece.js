@@ -5,6 +5,9 @@
 
 var GRAVITY_DENOM = 256;
 
+var ROTATION_LIMIT = 12;
+var MOVE_LIMIT = 24;
+
 function Piece(shape, position, tetrion){
 
 	this.shape = shape;
@@ -21,6 +24,10 @@ function Piece(shape, position, tetrion){
 
 	this.rotation_state = 0;
 	this.block_offsets = block_offsets[this.shape];
+
+	// move and rotate counter, for move/rotate limits
+	this.moves = 0;
+	this.rotations = 0;
 
 };
 
@@ -64,12 +71,21 @@ Piece.prototype.rotate = function(direction){
 			this.kick_offset = this.new_kick_offset;
 			this.rotation_state = this.new_rotation_state;
 
+			if (this.bottomed) this.rotations += 1;
+
 			if(this.bottomed && (!this.isDropBlocked() || this.tetrion.move_reset)){
 				this.bottomed = false;
 				this.lock_delay = this.tetrion.lock_delay;
+				if (!this.isDropBlocked) {
+					// regards of whether move reset applies.
+					this.moves = 0;
+					this.rotations = 0;
+				}
 			}
 
+			if (this.rotations > ROTATION_LIMIT) this.lock();
 			return true;
+
 		}
 	}
 
@@ -99,11 +115,22 @@ Piece.prototype.move = function(direction){
 			'y': this.new_position.y
 		};
 		// reset the rotation kick offset, but horizontal only
+
+		if (this.bottomed) this.moves += 1;
+
 		this.kick_offset.x = 0;
+
 		if(this.bottomed && (!this.isDropBlocked() || this.tetrion.move_reset)){
 			this.bottomed = false;
 			this.lock_delay = this.tetrion.lock_delay;
+			if (!this.isDropBlocked) {
+				// regards of whether move reset applies.
+				this.moves = 0;
+				this.rotations = 0;
+			}
 		}
+
+		if (this.moves > MOVE_LIMIT) this.lock();
 		return true;
 	}
 
@@ -146,6 +173,9 @@ Piece.prototype.drop = function(x, y){
 		if(this.tetrion.input_flags.down) ++this.tetrion.score_keeper.drop_count;
 
 		this.gravity -= GRAVITY_DENOM;
+		// reset move and rotate counters
+		this.moves = 0;
+		this.rotations = 0;
 		return true;
 	}
 

@@ -3,10 +3,7 @@ var fps_display = "0 fps";
 var stutter_log = "";
 var accum_delta = 0;
 
-function update(){
-
-	requestAnimationFrame(update);
-
+function logFPS() {
     var current_update_time = new Date().getTime();
 
     while(last_update_times[0] < current_update_time - 1000){
@@ -25,11 +22,14 @@ function update(){
     }
 
     last_update_times.push(current_update_time);
+}
 
-    while(accum_delta >= 1000/60){
-        accum_delta -= 1000/60;
-        tetrion.advanceOneFrame();
-    }
+
+function update(){
+
+	requestAnimationFrame(update);
+	logFPS();
+    scene.advanceOneFrame();
 
 }
 
@@ -40,4 +40,4 @@ window.onload = function(){
 
     update();
 
-}
+};

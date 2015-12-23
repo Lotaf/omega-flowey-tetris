@@ -115,15 +115,17 @@ Tetrion.prototype.advanceOneFrame = function(){
 
 	// 1.11 rotations
 
-	if(this.new_input_flags.rotate_left && !this.input_flags.rotate_left){
+	if ((this.new_input_flags.rotate_left && !this.input_flags.rotate_left) ||
+		(this.new_input_flags.rotate_left2 && !this.input_flags.rotate_left2)){
 		rotation = "left";
 	}
 
-	if(this.new_input_flags.rotate_right && !this.input_flags.rotate_right){
+	if ((this.new_input_flags.rotate_right && !this.input_flags.rotate_right) ||
+		(this.new_input_flags.rotate_right2 && !this.input_flags.rotate_right2)){
 		rotation = "right";
 	}
 
-	if(this.new_input_flags.rotate_180 && !this.input_flags.rotate_180){
+	if (this.new_input_flags.rotate_180 && !this.input_flags.rotate_180){
 		rotation = "180";
 	}
 

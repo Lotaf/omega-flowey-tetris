@@ -2,7 +2,7 @@ function setup_graphics(){
 
     var p = new Processing(document.getElementById("blockbox"));
 
-    piece_colours = {
+    var piece_colours = {
 		" ": p.color(  0,   0,   0),
     	"I": p.color(255,  40,   0),
     	"J": p.color(  0,  40, 255),
@@ -12,6 +12,17 @@ function setup_graphics(){
     	"T": p.color(105,   0, 210),
     	"Z": p.color(255,   0, 255),
     };
+
+	var opening_banner = p.loadImage("img/undertale_f_open.png");
+	var glitched_banners = [
+		p.loadImage("img/undertale_f_open-glitched1.png"),
+		p.loadImage("img/undertale_f_open-glitched2.png"),
+		p.loadImage("img/undertale_f_open-glitched3.png"),
+		p.loadImage("img/undertale_f_open-glitched4.png"),
+		p.loadImage("img/undertale_f_open-glitched5.png"),
+		p.loadImage("img/undertale_f_open-glitched6.png"),
+	];
+	var controls = p.loadImage("img/controls.png");
 
     p.setup = function() {
         p.size(640, 480);
@@ -136,15 +147,65 @@ function setup_graphics(){
 
 	};
 
+	p.drawIntroScene = function() {
+
+		var queued_text = [
+			"Long ago, two races\nruled over Earth:\nHUMANS and MONSTERS.",
+			"One day, the",
+			"One day, they all\nturned into Tetris\npieces and died."
+		];
+
+		p.background(0);
+
+		if (scene.scene_frames < 300) {
+			p.image(opening_banner, 120, 40);
+			document.getElementById("textbox").innerHTML = queued_text[0].substr(0, scene.scene_frames / 4);
+		} else if (scene.scene_frames < 375) {
+			p.image(opening_banner, 120, 40);
+			document.getElementById("textbox").innerHTML = queued_text[1].substr(0, (scene.scene_frames - 300) / 4);
+		} else if (scene.scene_frames < 600) {
+			if (scene.scene_frames < 425) p.image(glitched_banners[0], 120, 40);
+			else if (scene.scene_frames < 445) p.image(glitched_banners[1], 120, 40);
+			else if (scene.scene_frames < 470) p.image(glitched_banners[2], 120, 40);
+			else if (scene.scene_frames < 508) p.image(glitched_banners[3], 120, 40);
+			else if (scene.scene_frames < 568) p.image(glitched_banners[4], 120, 40);
+			else if (scene.scene_frames < 575) p.image(glitched_banners[3], 120, 40);
+			else p.image(glitched_banners[5], 120, 40);
+
+			if (scene.scene_frames == 375) {
+				intro_scene.garbled_text_length = queued_text[2].length;
+				document.getElementById("textbox").innerHTML = queued_text[2];
+			} else if (scene.scene_frames > 470 && Math.random() < 0.1) {
+				intro_scene.garbled_text_length = Math.floor((0.6 + Math.random() * 0.2) * intro_scene.garbled_text_length);
+				document.getElementById("textbox").innerHTML = queued_text[2].substr(0, intro_scene.garbled_text_length) + generateGarbledString();
+			}
+
+			document.title = generateGarbledString();
+		} else {
+
+			document.title = "Floweytris";
+			document.getElementById("textbox").innerHTML = "";
+			document.getElementById("controlbox").style.display = "block";
+		}
+
+	}
+
     p.draw = function() {
 
 		var t_pos = { x: 240, y: 120 };
-		if (!tetrion.gameover) {
-	        p.drawTetrion(t_pos);
-			p.drawNextQueue(t_pos);
-			p.drawHoldPiece(t_pos);
+
+		if (scene.scene_state == "intro") {
+			p.drawIntroScene();
+		} else if (scene.scene_state == "tetris") {
+			if (!tetrion.gameover) {
+				p.drawTetrion(t_pos);
+				p.drawNextQueue(t_pos);
+				p.drawHoldPiece(t_pos);
+			} else {
+				p.drawBrokenTetrion(t_pos);
+			}
 		} else {
-			p.drawBrokenTetrion(t_pos);
+			p.background(0); // blank
 		}
 
     };

@@ -38,6 +38,8 @@ window.onload = function(){
     setup_graphics();
     setup_input();
 
+	document.getElementById("intro").play();
+
     update();
 
 };

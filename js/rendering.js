@@ -15,12 +15,12 @@ function setup_graphics(){
 
 	var opening_banner = p.loadImage("img/undertale_f_open.png");
 	var glitched_banners = [
-		p.loadImage("img/undertale_f_open-glitched1.png"),
-		p.loadImage("img/undertale_f_open-glitched2.png"),
-		p.loadImage("img/undertale_f_open-glitched3.png"),
-		p.loadImage("img/undertale_f_open-glitched4.png"),
-		p.loadImage("img/undertale_f_open-glitched5.png"),
-		p.loadImage("img/undertale_f_open-glitched6.png"),
+		p.loadImage("img/undertale_f_open_big-glitched1.png"),
+		p.loadImage("img/undertale_f_open_big-glitched2.png"),
+		p.loadImage("img/undertale_f_open_big-glitched3.png"),
+		p.loadImage("img/undertale_f_open_big-glitched4.png"),
+		p.loadImage("img/undertale_f_open_big-glitched5.png"),
+		p.loadImage("img/undertale_f_open_big-glitched6.png"),
 	];
 	var controls = p.loadImage("img/controls.png");
 
@@ -164,23 +164,21 @@ function setup_graphics(){
 			p.image(opening_banner, 120, 40);
 			document.getElementById("textbox").innerHTML = queued_text[1].substr(0, (scene.scene_frames - 300) / 4);
 		} else if (scene.scene_frames < 600) {
-			if (scene.scene_frames < 425) p.image(glitched_banners[0], 120, 40);
-			else if (scene.scene_frames < 445) p.image(glitched_banners[1], 120, 40);
-			else if (scene.scene_frames < 470) p.image(glitched_banners[2], 120, 40);
-			else if (scene.scene_frames < 508) p.image(glitched_banners[3], 120, 40);
-			else if (scene.scene_frames < 568) p.image(glitched_banners[4], 120, 40);
-			else if (scene.scene_frames < 575) p.image(glitched_banners[3], 120, 40);
-			else p.image(glitched_banners[5], 120, 40);
+			if (scene.scene_frames < 425) p.image(glitched_banners[0], 0, 0);
+			else if (scene.scene_frames < 445) p.image(glitched_banners[1], 0, 0);
+			else if (scene.scene_frames < 470) p.image(glitched_banners[2], 0, 0);
+			else if (scene.scene_frames < 508) p.image(glitched_banners[3], 0, 0);
+			else if (scene.scene_frames < 568) p.image(glitched_banners[4], 0, 0);
+			else if (scene.scene_frames < 575) p.image(glitched_banners[3], 0, 0);
+			else p.image(glitched_banners[5], 0, 0);
 
 			if (scene.scene_frames == 375) {
 				intro_scene.garbled_text_length = queued_text[2].length;
 				document.getElementById("textbox").innerHTML = queued_text[2];
-			} else if (scene.scene_frames > 470 && Math.random() < 0.1) {
+			} else if (scene.scene_frames > 470 && Math.random() < 0.15) {
 				intro_scene.garbled_text_length = Math.floor((0.6 + Math.random() * 0.2) * intro_scene.garbled_text_length);
 				document.getElementById("textbox").innerHTML = queued_text[2].substr(0, intro_scene.garbled_text_length) + generateGarbledString();
 			}
-
-			document.title = generateGarbledString();
 		} else {
 
 			document.title = "Floweytris";

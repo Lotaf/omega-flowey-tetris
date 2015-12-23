@@ -332,7 +332,10 @@ Tetrion.prototype.animateGameOver = function(){
 		}
 	}
 
-	if (this.gameover_frames == 2000) { window.location.reload(false); }
+	if (this.gameover_frames == 180) {
+		scene.scene_state = "gameover";
+		document.getElementById("gameover").play();
+	}
 
 };
 

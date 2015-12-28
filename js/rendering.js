@@ -173,6 +173,8 @@ function setup_graphics(){
 			else p.image(glitched_banners[5], 0, 0);
 
 			if (scene.scene_frames == 375) {
+				bgm_intro.stop();
+				bgm_audio_glitch.play();
 				intro_scene.garbled_text_length = queued_text[2].length;
 				document.getElementById("textbox").innerHTML = queued_text[2];
 			} else if (scene.scene_frames > 470 && Math.random() < 0.15) {
@@ -180,7 +182,7 @@ function setup_graphics(){
 				document.getElementById("textbox").innerHTML = queued_text[2].substr(0, intro_scene.garbled_text_length) + generateGarbledString();
 			}
 		} else {
-
+			bgm_audio_glitch.stop();
 			document.title = "Floweytris";
 			document.getElementById("textbox").innerHTML = "";
 			document.getElementById("controlbox").style.display = "block";

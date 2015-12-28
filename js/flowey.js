@@ -67,9 +67,11 @@ Flower.prototype.advanceTextA = function() {
 
 Flower.prototype.advanceTextB = function() {
 
-	this.printedChars = this.queued_text[this.currentLine].length;
-	this.displayText = this.queued_text[this.currentLine].replace(/%./g, "");
-	se_flowey.play();
+	if (this.printedChars < this.queued_text[this.currentLine].length) {
+		this.printedChars = this.queued_text[this.currentLine].length;
+		this.displayText = this.queued_text[this.currentLine].replace(/%./g, "");
+		se_flowey.play();
+	}
 
 }
 

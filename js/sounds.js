@@ -3,6 +3,11 @@ var bgm_intro = new Howl({
 	loop: false,
 });
 
+var bgm_audio_glitch = new Howl({
+	src: ["audio/glitch.ogg"],
+	loop: true,
+});
+
 var bgm_gameover = new Howl({
 	src: ["audio/gameover.ogg"],
 	loop: true,

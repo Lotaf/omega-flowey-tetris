@@ -3,6 +3,25 @@ var fps_display = "0 fps";
 var stutter_log = "";
 var accum_delta = 0;
 
+
+function update(){
+
+	requestAnimationFrame(update);
+	logFPS();
+    scene.advanceOneFrame();
+
+}
+
+window.onload = function(){
+
+    setup_graphics();
+    setup_input();
+	scene.selectScene("intro");
+    update();
+
+};
+
+
 function logFPS() {
     var current_update_time = new Date().getTime();
 
@@ -23,23 +42,3 @@ function logFPS() {
 
     last_update_times.push(current_update_time);
 }
-
-
-function update(){
-
-	requestAnimationFrame(update);
-	logFPS();
-    scene.advanceOneFrame();
-
-}
-
-window.onload = function(){
-
-    setup_graphics();
-    setup_input();
-
-	document.getElementById("intro").play();
-
-    update();
-
-};

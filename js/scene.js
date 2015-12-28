@@ -4,7 +4,7 @@ var intro_scene = {
 
 function Scene() {
 
-	this.scene_state = "intro";
+	this.scene_state = "";
 	this.scene_frames = 0;
 
 	/*
@@ -17,11 +17,30 @@ function Scene() {
 
 };
 
+Scene.prototype.selectScene = function(name) {
+
+	this.scene_state = name;
+
+	switch(name) {
+		case "intro":
+			bgm_intro.play();
+			break;
+		case "gameover":
+			bgm_gameover.play();
+			break;
+		default:
+			break;
+	}
+
+}
+
 Scene.prototype.advanceOneFrame = function() {
 
 	this.scene_frames += 1;
 
-	if (this.scene_state == "tetris") {
+	if (this.scene_state == "flowey") {
+		flowey.advanceOneFrame();
+	} else if (this.scene_state == "tetris") {
 		tetrion.advanceOneFrame();
 	}
 
@@ -32,9 +51,16 @@ Scene.prototype.handleInput = function(input) {
 	if (this.scene_state == "intro" && this.scene_frames >= 600) {
 		if (input.dir == "down" && input.input == "A"){
 			document.getElementById("controlbox").style.display = "none";
-			this.scene_state = "tetris";
+			this.scene_state = "flowey";
+			flowey.init();
 		}
-	} if (this.scene_state == "tetris") {
+	} else if (this.scene_state == "flowey") {
+		if (input.dir == "down" && input.input == "A"){
+			flowey.advanceTextA();
+		} else if (input.dir == "down" && input.input == "B"){
+			flowey.advanceTextB();
+		}
+	} else if (this.scene_state == "tetris") {
 		if (input.dir == "down")
 			tetrion.activateInput(input.input);
 		else if (input.dir == "up")

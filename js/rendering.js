@@ -186,7 +186,13 @@ function setup_graphics(){
 			document.getElementById("controlbox").style.display = "block";
 		}
 
-	}
+	};
+
+	p.drawFlowey = function() {
+
+		document.getElementById("textbox").innerHTML = flowey.displayText;
+
+	};
 
     p.draw = function() {
 
@@ -194,6 +200,8 @@ function setup_graphics(){
 
 		if (scene.scene_state == "intro") {
 			p.drawIntroScene();
+		} else if (scene.scene_state == "flowey") {
+			p.drawFlowey();
 		} else if (scene.scene_state == "tetris") {
 			if (!tetrion.gameover) {
 				p.drawTetrion(t_pos);
@@ -202,6 +210,8 @@ function setup_graphics(){
 			} else {
 				p.drawBrokenTetrion(t_pos);
 			}
+		} else if (scene.scene_state == "gameover") {
+			p.drawGameOver(t_pos);
 		} else {
 			p.background(0); // blank
 		}
@@ -209,6 +219,5 @@ function setup_graphics(){
     };
 
     p.setup();
-
 
 };

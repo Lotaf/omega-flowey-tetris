@@ -5,8 +5,8 @@
 
 var GRAVITY_DENOM = 256;
 
-var ROTATION_LIMIT = 12;
-var MOVE_LIMIT = 24;
+var ROTATION_LIMIT = 6;
+var MOVE_LIMIT = 12;
 
 function Piece(shape, position, tetrion){
 

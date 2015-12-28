@@ -6,6 +6,10 @@ html, body {
 	font-family: "8-bit Operator Mono", Fixedsys, sans-serif;
 	font-weight: normal;
 	font-size: 18px;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	cursor: default;
 }
 
 #gamebox{

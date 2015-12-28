@@ -48,12 +48,12 @@
 
 @font-face {
     font-family: '8-bit Operator Mono';
-    src: url('fonts/8-bit_operator_mono-regular-webfont.eot');
-    src: url('fonts/8-bit_operator_mono-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('fonts/8-bit_operator_mono-regular-webfont.woff2') format('woff2'),
-         url('fonts/8-bit_operator_mono-regular-webfont.woff') format('woff'),
-         url('fonts/8-bit_operator_mono-regular-webfont.ttf') format('truetype'),
-         url('fonts/8-bit_operator_mono-regular-webfont.svg#8-bit_operatorbold') format('svg');
+    src: url('fonts/8-bit_operator_mono-webfont.eot');
+    src: url('fonts/8-bit_operator_mono-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/8-bit_operator_mono-webfont.woff2') format('woff2'),
+         url('fonts/8-bit_operator_mono-webfont.woff') format('woff'),
+         url('fonts/8-bit_operator_mono-webfont.ttf') format('truetype'),
+         url('fonts/8-bit_operator_mono-webfont.svg#8-bit_operatorbold') format('svg');
     font-weight: normal;
     font-style: normal;
 }

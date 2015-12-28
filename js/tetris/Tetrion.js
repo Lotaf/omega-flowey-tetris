@@ -45,8 +45,6 @@ function Tetrion(){
 	this.hold_piece = null;
 	this.held_piece = false;
 
-	this.resetBoard();
-
 };
 
 Tetrion.prototype.advanceOneFrame = function(){
@@ -160,6 +158,8 @@ Tetrion.prototype.advanceOneFrame = function(){
 
 	this.score_keeper.advanceOneFrame();
 
+	mission.advanceOneFrame();
+
 };
 
 Tetrion.prototype.checkForLines = function(){
@@ -271,6 +271,8 @@ Tetrion.prototype.queueNewPiece = function(){
 
 Tetrion.prototype.gameOver = function() {
 
+	mission.current_section.bgm.stop();
+
 	this.gameover = true;
 	this.gameover_frames = 0;
 
@@ -294,8 +296,6 @@ Tetrion.prototype.gameOver = function() {
 		}
 	}
 
-	document.getElementById("msgbox").innerHTML = "";
-
 };
 
 Tetrion.prototype.animateGameOver = function(){
@@ -304,6 +304,7 @@ Tetrion.prototype.animateGameOver = function(){
 
 	// split the board in half like a broken heart
 	if (this.gameover_frames == 30) {
+		se_tetrion_break.play();
 		for (var a = 0; a < 10; ++a){
 			for (var b = 0; b < 24; ++b){
 				if (a < 5) this.particles[a][b].position.x -= 8;
@@ -313,6 +314,7 @@ Tetrion.prototype.animateGameOver = function(){
 	}
 
 	if (this.gameover_frames == 90) {
+		se_tetrion_shatter.play();
 		for (var a = 0; a < 10; ++a){
 			for (var b = 0; b < 24; ++b){
 				var angle = Math.random() * Math.PI;
@@ -333,8 +335,7 @@ Tetrion.prototype.animateGameOver = function(){
 	}
 
 	if (this.gameover_frames == 180) {
-		scene.scene_state = "gameover";
-		document.getElementById("gameover").play();
+		scene.selectScene("gameover");
 	}
 
 };
@@ -398,11 +399,6 @@ Tetrion.prototype.resetBoard = function(){
 
 	this.score_keeper.reset();
 
-	this.are = 12 * this.fps / 60;
-	this.line_are = 12 * this.fps / 60;
-	this.lock_delay = 20 * this.fps / 60;
-	this.max_das = 8 * this.fps / 60;
-
 	this.gravity = this.score_keeper.getGravity() * this.fps / 60;
 	this.drop_speed = 256 * this.fps / 60;
 
@@ -413,6 +409,21 @@ Tetrion.prototype.resetBoard = function(){
 
 	this.entry_delay = this.are;
 
+	mission.current_section = mission.sectionList[0];
+	this.setDelayParams(mission.current_section.speed_params);
+	mission.current_section.bgm.play();
+
 }
+
+
+Tetrion.prototype.setDelayParams = function(params){
+
+	this.are = params[0] * this.fps / 60;
+	this.line_are = params[1] * this.fps / 60;
+	this.lock_delay = params[2] * this.fps / 60;
+	this.max_das = params[3] * this.fps / 60;
+
+}
+
 
 var tetrion = new Tetrion();

@@ -69,6 +69,12 @@ ScoreKeeper.prototype.clearLines = function(lines){
     // update combo
     if(lines >= 2) this.combo += 1;
 
+	// update mission
+	mission.sendInput({
+		type: "line_clear",
+		lines: lines
+	})
+
 };
 
 ScoreKeeper.prototype.addLevel = function(dLevel){

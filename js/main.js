@@ -16,7 +16,7 @@ window.onload = function(){
 
     setup_graphics();
     setup_input();
-	scene.selectScene("intro");
+	scene.selectScene("flowey");
     update();
 
 };

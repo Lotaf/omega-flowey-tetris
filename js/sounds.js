@@ -30,6 +30,11 @@ var bgm_flowey_section1a = new Howl({
 	loop: true,
 });
 
+var bgm_flowey_saved = new Howl({
+	src: ["audio/flowey_saved.ogg"],
+	rate: 0.9,
+	loop: true,
+});
 
 var bgm_flowey_section2 = new Howl({
 	src: ["audio/flowey_s2.ogg"],
@@ -108,8 +113,41 @@ var se_tetrion_shatter = new Howl({
 	loop: false,
 });
 
-
 var se_section_clear = new Howl({
 	src: ["audio/se/section_clear.wav"],
+	loop: false,
+});
+
+var se_heal = new Howl({
+	src: ["audio/se/heal.wav"],
+	loop: false,
+});
+
+var se_piece1 = new Howl({
+	src: ["audio/se/SEB_mino1.wav"],
+	loop: false,
+});
+var se_piece2 = new Howl({
+	src: ["audio/se/SEB_mino2.wav"],
+	loop: false,
+});
+var se_piece3 = new Howl({
+	src: ["audio/se/SEB_mino3.wav"],
+	loop: false,
+});
+var se_piece4 = new Howl({
+	src: ["audio/se/SEB_mino4.wav"],
+	loop: false,
+});
+var se_piece5 = new Howl({
+	src: ["audio/se/SEB_mino5.wav"],
+	loop: false,
+});
+var se_piece6 = new Howl({
+	src: ["audio/se/SEB_mino6.wav"],
+	loop: false,
+});
+var se_piece7 = new Howl({
+	src: ["audio/se/SEB_mino7.wav"],
 	loop: false,
 });

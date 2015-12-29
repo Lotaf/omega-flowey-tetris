@@ -8,7 +8,7 @@ var GRAVITY_DENOM = 256;
 var ROTATION_LIMIT = 6;
 var MOVE_LIMIT = 12;
 
-function Piece(shape, position, tetrion){
+function Piece(shape, position, tetrion, healing){
 
 	this.shape = shape;
 	this.position = position;
@@ -24,6 +24,8 @@ function Piece(shape, position, tetrion){
 
 	this.rotation_state = 0;
 	this.block_offsets = block_offsets[this.shape];
+
+	this.healing = healing || false;
 
 	// move and rotate counter, for move/rotate limits
 	this.moves = 0;
@@ -264,7 +266,12 @@ Piece.prototype.lock = function(){
 		var block_x = this.position.x + this.kick_offset.x + this.block_offsets[this.rotation_state][a].x;
 		var block_y = this.position.y + this.kick_offset.y + this.block_offsets[this.rotation_state][a].y;
 
-		this.tetrion.setBlockAt(block_x, block_y, this.shape);
+		if (this.healing) {
+			this.tetrion.setBlockAt(block_x, block_y, "H");
+		} else {
+			this.tetrion.setBlockAt(block_x, block_y, this.shape);
+		}
+
 
 	}
 

@@ -4,6 +4,8 @@ function setup_graphics(){
 
     var piece_colours = {
 		" ": p.color(  0,   0,   0),
+    	"G": p.color(127, 127, 127), // G for garbage.
+    	"H": p.color(255, 255, 255), // H for healing.
     	"I": p.color(255,  40,   0),
     	"J": p.color(  0,  40, 255),
     	"L": p.color(255, 135,   0),
@@ -65,6 +67,7 @@ function setup_graphics(){
                 piece.lock();
             } else {
                 p.fill(piece_colours[piece.shape], 55 + 200 * (piece.lock_delay / tetrion.lock_delay));
+				if (tetrion.healing) p.fill(255);
 				p.stroke(piece_colours[piece.shape], 0 * (piece.lock_delay / tetrion.lock_delay));
             }
             for(var a = 0; a < 4; ++a){
@@ -73,6 +76,7 @@ function setup_graphics(){
                 p.rect(x * 16 + t_pos.x, y * 16 + t_pos.y, 16, 16);
             }
         }
+
 	};
 
 	p.drawNextQueue = function(t_pos) {
@@ -81,8 +85,10 @@ function setup_graphics(){
 
 		var piece = tetrion.next_queue[0];
         var shape = piece_shapes[piece];
+		if (tetrion.healing) shape = tetrion.heal_piece;
 
         p.fill(piece_colours[shape]);
+		if (tetrion.healing) p.fill(255);
 		p.stroke(16);
 
         for(var a = 0; a < 4; ++a){
@@ -95,10 +101,13 @@ function setup_graphics(){
             var piece = tetrion.next_queue[n];
             var shape = piece_shapes[piece];
 
+			if (tetrion.healing) shape = tetrion.heal_piece;
+
             var location = 90 + n * 48;
             if(shape == "I" || shape == "O") location = 101 + n * 48;
 
             p.fill(piece_colours[shape]);
+			if (tetrion.healing) p.fill(255);
 
             for(var a = 0; a < 4; ++a){
                 var x = block_offsets[shape][0][a].x;
@@ -106,6 +115,7 @@ function setup_graphics(){
                 p.rect(x * 11 + location + t_pos.x, y * 11 + t_pos.y - 30, 11, 11);
             }
         }
+
 	};
 
 	p.drawHoldPiece = function(t_pos) {

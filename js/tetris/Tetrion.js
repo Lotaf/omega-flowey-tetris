@@ -28,8 +28,10 @@ function Tetrion(){
 		hold: false,
 	};
 
+	this.next_sounds = [se_piece1, se_piece2, se_piece3,
+		se_piece4, se_piece5, se_piece6, se_piece7];
+
 	this.gameover = false;
-	this.move_reset = true;
 
 	this.fps = 60; 	// actual FPS value;
 					// all values in internal code are normalized to 60 FPS
@@ -45,6 +47,30 @@ function Tetrion(){
 	this.hold_piece = null;
 	this.held_piece = false;
 
+	this.gravity_type = "normal";
+	this.healing = false;
+	this.heal_piece = "O";
+
+	// config options
+	this.move_reset = false;
+
+};
+
+Tetrion.prototype.blockGravity = function() {
+	var blocks_moved = true;
+	// move all blocks down one square?
+	while (blocks_moved) {
+		blocks_moved = false;
+		for(var b = 19; b > -2; --b){
+			for(var a = 0; a < 10; ++a){
+				if (this.getBlockAt(a, b) == " " && this.getBlockAt(a, b-1) != " ") {
+					this.setBlockAt(a, b, this.getBlockAt(a, b-1));
+					this.setBlockAt(a, b-1, " ");
+					blocks_moved = true;
+				}
+			}
+		}
+	}
 };
 
 Tetrion.prototype.advanceOneFrame = function(){
@@ -52,6 +78,14 @@ Tetrion.prototype.advanceOneFrame = function(){
 	if (this.gameover) {
 		this.animateGameOver();
 		return;
+	}
+
+	/////////////////////////////////////
+	// step 0. apply alternate gravity //
+	/////////////////////////////////////
+
+	if (this.current_piece == null && this.gravity_type == "block") {
+		this.blockGravity();
 	}
 
 	//////////////////////////////
@@ -183,6 +217,8 @@ Tetrion.prototype.checkForLines = function(){
 
 	if (lines_cleared == 0) {
 		this.score_keeper.combo = 0; // reset the combo
+	} else { // some lines were cleared
+		if (this.healing) se_heal.play();
 	}
 
 	this.score_keeper.clearLines(lines_cleared);
@@ -204,6 +240,7 @@ Tetrion.prototype.waitForNewPiece = function(){
 Tetrion.prototype.holdPiece = function(){
 	if (this.held_piece) return;
 	if (!this.current_piece) return;
+	if (this.healing) return; // no holding heal pieces
 
 	var piece_to_release = this.hold_piece;
 	this.held_piece = true;
@@ -233,7 +270,32 @@ Tetrion.prototype.holdPiece = function(){
 	}
 }
 
+Tetrion.prototype.queueNewHealPiece = function(){
+
+	var spawn_piece = this.heal_piece;
+
+	var spawn_row = spawn_positions[spawn_piece].y;
+	var spawn_column = spawn_positions[spawn_piece].x;
+
+	this.current_piece = new Piece(
+		spawn_piece,
+		{x: spawn_column, y: spawn_row},
+		this,
+		true
+	);
+
+	if(this.current_piece.isSpawnBlocked()){
+		this.gameOver();
+	}
+
+}
+
 Tetrion.prototype.queueNewPiece = function(){
+
+	if (this.healing) {
+		this.queueNewHealPiece();
+		return;
+	}
 
 	this.held_piece = false;
 
@@ -266,6 +328,8 @@ Tetrion.prototype.queueNewPiece = function(){
 
 	this.genRandomPiece();
 	this.score_keeper.spawnPiece();
+
+	if (this.game_started) this.next_sounds[this.next_queue[0]].play();
 
 }
 
@@ -380,6 +444,24 @@ Tetrion.prototype.genRandomPiece = function(){
 };
 
 
+Tetrion.prototype.sendGarbage = function(){
+
+	console.log("garbage sent");
+
+	for(var b = -2; b < 19; ++b){
+		for(var a = 0; a < 10; ++a){
+			this.setBlockAt(a, b, this.getBlockAt(a, b + 1));
+		}
+	}
+	for(var a = 0; a < 10; ++a){
+		if (this.getBlockAt(a, 18) != " ") {
+			this.setBlockAt(a, 19, "G");
+		}
+	}
+
+};
+
+
 Tetrion.prototype.resetBoard = function(){
 
 	this.gameover = false;
@@ -409,6 +491,8 @@ Tetrion.prototype.resetBoard = function(){
 
 	this.entry_delay = this.are;
 
+	this.game_started = true;
+
 	mission.current_section = mission.sectionList[0];
 	this.setDelayParams(mission.current_section.speed_params);
 	mission.current_section.bgm.play();
@@ -425,5 +509,28 @@ Tetrion.prototype.setDelayParams = function(params){
 
 }
 
+Tetrion.prototype.activateHealing = function(heal_piece, gravity_type) {
+
+	this.healing = true;
+	this.heal_piece = heal_piece;
+	this.gravity_type = gravity_type;
+
+	switch (heal_piece) {
+		case "i":
+		case "o":
+			this.gravity_type = "block";
+			break;
+		default:
+			break;
+	}
+
+};
+
+Tetrion.prototype.deactivateHealing = function() {
+
+	this.healing = false;
+	this.gravity_type = "normal";
+
+};
 
 var tetrion = new Tetrion();

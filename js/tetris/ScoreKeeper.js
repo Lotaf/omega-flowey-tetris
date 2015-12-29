@@ -35,6 +35,10 @@ ScoreKeeper.prototype.placePiece = function(){
     this.score += this.drop_count;
     this.drop_count = 0;
 
+	mission.current_section.sendInput({
+		type: "piece_locked"
+	});
+
 };
 
 ScoreKeeper.prototype.spawnPiece = function(){

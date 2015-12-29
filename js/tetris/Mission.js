@@ -5,8 +5,8 @@ function Mission(tetrion) {
 	this.tetrion = tetrion;
 
 	this.sectionList = [
-		new SurvivalSection(	 0.3,	[10, 10, 30, 8], bgm_flowey_section1),
-		new LineClearSection(	   1,	[10, 10, 30, 8], bgm_flowey_section1a),
+		new SurvivalSection(	30.3,	[10, 10, 30, 8], bgm_flowey_section1),
+		new LineClearSection(	  10,	[10, 10, 30, 8], bgm_flowey_section1a),
 		new HealSection(     	   5,	[10, 10, 30, 8], bgm_flowey_saved, "I"),
 		new SurvivalSection(	27.8, 	[10, 10, 24, 6], bgm_flowey_section2),
 		new   TetrisSection(	   1, 	[10, 10, 24, 6], bgm_flowey_section2a),

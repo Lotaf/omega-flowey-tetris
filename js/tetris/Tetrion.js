@@ -219,6 +219,7 @@ Tetrion.prototype.checkForLines = function(){
 		this.score_keeper.combo = 0; // reset the combo
 	} else { // some lines were cleared
 		if (this.healing) se_heal.play();
+		else se_attack.play();
 	}
 
 	this.score_keeper.clearLines(lines_cleared);
@@ -336,6 +337,8 @@ Tetrion.prototype.queueNewPiece = function(){
 Tetrion.prototype.gameOver = function() {
 
 	mission.current_section.bgm.stop();
+
+	localStorage["oft.deaths"] = parseInt(localStorage["oft.deaths"]) + 1;
 
 	this.gameover = true;
 	this.gameover_frames = 0;
@@ -458,6 +461,7 @@ Tetrion.prototype.sendGarbage = function(){
 			this.setBlockAt(a, 19, "G");
 		}
 	}
+	se_garbage.play();
 
 };
 

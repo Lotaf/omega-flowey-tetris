@@ -6,6 +6,8 @@ function Flower(){
 	this.printedChars = 0;
 	this.displayText = "";
 
+	this.se = se_flowey;
+
 }
 
 Flower.prototype.init = function() {
@@ -43,7 +45,7 @@ Flower.prototype.advanceOneFrame = function() {
 		}
 	}
 
-	if (sound) se_flowey.play();
+	if (sound) this.se.play();
 
 }
 
@@ -56,6 +58,9 @@ Flower.prototype.advanceTextA = function() {
 		this.displayText = "";
 		if (this.currentLine >= this.queued_text.length) {
 			// go to next scene
+			localStorage["oft.intro"] = true;
+			localStorage["oft.plays"] = parseInt(localStorage["oft.plays"]) + 1;
+
 			document.getElementById("textbox").innerHTML = "";
 			bgm_flowey_intro1.stop();
 			scene.scene_state = "tetris";
@@ -70,8 +75,46 @@ Flower.prototype.advanceTextB = function() {
 	if (this.printedChars < this.queued_text[this.currentLine].length) {
 		this.printedChars = this.queued_text[this.currentLine].length;
 		this.displayText = this.queued_text[this.currentLine].replace(/%./g, "");
-		se_flowey.play();
+		this.se.play();
 	}
+
+}
+
+Flower.prototype.getIntroLine = function(runaway, escapes, deaths) {
+
+	if (runaway) {
+		switch (escapes){
+			case 1: return [
+				"Hee hee hee...",
+				"Did you really think\nyou could run away?",
+				"Now you have to play\neverything you just did...",
+				"Right from the VERY\nBEGINNING."
+			];
+			case 2: return [
+				"Looks like we've got a\nrunner here.",
+				"Pathetic. You can't even\nLOSE the game properly."
+			];
+			default: return ["Don't you have anything\nbetter to do...",
+				"...than wasting your time\ntrying to save-scum your\nway to victory?"];
+		}
+	} else {
+		switch (deaths){
+			case 0: return [
+				"Hee hee hee...",
+				"Did you really think\nyou could run away?"
+			];
+			case 1: return [
+				"Hee hee hee...",
+				"Did you really think I'd\nbe satisfied...%2\nkilling you just ONCE?",
+				"And don't think you've\nmade it to a checkpoint.",
+				"When you lose THIS game,%1\nyou have to start\nAAAALLLL over again."
+			];
+			default: return ["Don't you have anything\nbetter to do?",
+				"Being beaten senseless by\nthis game over and over\nmust really fill you with\nDETERMINATION, huh?"];
+		}
+	}
+
+	return ["ahhhhh what the hell"];
 
 }
 

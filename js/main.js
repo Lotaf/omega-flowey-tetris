@@ -3,7 +3,6 @@ var fps_display = "0 fps";
 var stutter_log = "";
 var accum_delta = 0;
 
-
 function update(){
 
 	requestAnimationFrame(update);
@@ -16,7 +15,29 @@ window.onload = function(){
 
     setup_graphics();
     setup_input();
-	scene.selectScene("intro");
+
+	// load save data
+	initSaveData();
+
+	if (!localStorage.hasOwnProperty("oft.intro") || localStorage["oft.intro"] == "false") {
+		scene.selectScene("intro");
+	} else {
+		var escapes = parseInt(localStorage["oft.escapes"]);
+		var deaths = parseInt(localStorage["oft.deaths"]);
+
+		var plays = parseInt(localStorage["oft.plays"]);
+		var runaway = false;
+
+		if (plays > escapes + deaths) {
+			escapes += 1;
+			localStorage["oft.escapes"] = escapes;
+			localStorage["oft.plays"] = escapes + deaths;
+			runaway = true;
+		}
+
+		scene.selectScene("flowey_alt", {runaway: runaway, escapes: escapes, deaths: deaths});
+	}
+
     update();
 
 };

@@ -182,9 +182,18 @@ function setup_graphics(){
 
 	p.drawFlowey = function() {
 
+		p.background(0);
 		document.getElementById("textbox").innerHTML = flowey.displayText;
 
 	};
+
+	p.drawFloweyAlt = function() {
+
+		p.background(0);
+		document.getElementById("textbox").innerHTML = flowey.displayText;
+
+	};
+
 
 	p.drawBrokenTetrion = function(t_pos) {
 
@@ -230,7 +239,7 @@ function setup_graphics(){
 
 			if ((scene.scene_frames - 90) % 4 == 0 &&
 				(scene.scene_frames - 90) / 4 <= queued_text[0].length &&
-				isNotWhitespace(queued_text[0][(scene.scene_frames - 90) / 4 - 1]) ) se_flowey.play();
+				isNotWhitespace(queued_text[0][(scene.scene_frames - 90) / 4 - 1]) ) se_asgore.play();
 
 		} else if (scene.scene_frames < 450) {
 
@@ -243,10 +252,13 @@ function setup_graphics(){
 				(scene.scene_frames - 300) / 4 <= queued_text[1].length &&
 				isNotWhitespace(queued_text[1][(scene.scene_frames - 300) / 4 - 1]) ) se_evilflowey.play();
 
-		} else if (scene.scene_frames < 900) {
+		} else if (scene.scene_frames < 800) {
 
 			document.getElementById("textbox").innerHTML = "";
-			if (scene.scene_frames == 450) bgm_gameover2.play();
+			if (scene.scene_frames == 450) {
+				bgm_gameover2.play();
+				se_flowey_laugh.play();
+			}
 
 			if (scene.scene_frames < 490) {
 				p.image(hahahahahahahaha, 0, 480 - (scene.scene_frames - 450) * 17);
@@ -256,6 +268,7 @@ function setup_graphics(){
 
 		} else {
 
+			bgm_gameover2.stop();
 			window.close();
 
 		}
@@ -270,6 +283,8 @@ function setup_graphics(){
 			p.drawIntroScene();
 		} else if (scene.scene_state == "flowey") {
 			p.drawFlowey();
+		} else if (scene.scene_state == "flowey_alt") {
+			p.drawFloweyAlt();
 		} else if (scene.scene_state == "tetris") {
 			if (!tetrion.gameover) {
 				p.drawTetrion(t_pos);

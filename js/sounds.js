@@ -20,6 +20,7 @@ var bgm_gameover = new Howl({
 var bgm_gameover2 = new Howl({
 	src: ["audio/flowey_hahahahaha.ogg"],
 	loop: false,
+	volume: 0.7,
 });
 
 
@@ -111,6 +112,17 @@ var se_evilflowey = new Howl({
 	loop: false,
 });
 
+var se_asgore = new Howl({
+	src: ["audio/se/asgore.wav"],
+	loop: false,
+});
+
+var se_flowey_laugh = new Howl({
+	src: ["audio/se/flowey_laugh.wav"],
+	loop: false,
+});
+
+
 
 var se_tetrion_break = new Howl({
 	src: ["audio/se/tetrion_break.wav"],
@@ -127,13 +139,33 @@ var se_section_clear = new Howl({
 	loop: false,
 });
 
+var se_garbage = new Howl({
+	src: ["audio/se/garbage.wav"],
+	loop: false,
+});
+
+var se_attack = new Howl({
+	src: ["audio/se/attack.wav"],
+	loop: false,
+});
+
 var se_heal = new Howl({
 	src: ["audio/se/heal.wav"],
 	loop: false,
 });
 
+
+// pieces are mapped as follows:
+// Piece 1: O
+// Piece 2: J
+// Piece 3: L
+// Piece 4: Z
+// Piece 5: S
+// Piece 6: T
+// Piece 7: I
+
 var se_piece1 = new Howl({
-	src: ["audio/se/SEB_mino1.wav"],
+	src: ["audio/se/SEB_mino7.wav"],
 	loop: false,
 });
 var se_piece2 = new Howl({
@@ -145,7 +177,7 @@ var se_piece3 = new Howl({
 	loop: false,
 });
 var se_piece4 = new Howl({
-	src: ["audio/se/SEB_mino4.wav"],
+	src: ["audio/se/SEB_mino1.wav"],
 	loop: false,
 });
 var se_piece5 = new Howl({
@@ -157,6 +189,6 @@ var se_piece6 = new Howl({
 	loop: false,
 });
 var se_piece7 = new Howl({
-	src: ["audio/se/SEB_mino7.wav"],
+	src: ["audio/se/SEB_mino4.wav"],
 	loop: false,
 });

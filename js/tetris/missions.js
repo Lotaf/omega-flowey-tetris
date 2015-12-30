@@ -83,6 +83,7 @@ function HealSection(time_limit, speed_params, bgm, piece) {
 HealSection.prototype.start = function() {
 
 	tetrion.blockGravity();
+	se_tetrion_shatter.play(); // the healing section flashes in.
 	tetrion.activateHealing(this.piece, "block");
 	tetrion.queueNewHealPiece();
 

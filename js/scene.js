@@ -17,7 +17,7 @@ function Scene() {
 
 };
 
-Scene.prototype.selectScene = function(name) {
+Scene.prototype.selectScene = function(name, data) {
 
 	this.scene_state = name;
 	this.scene_frames = 0;
@@ -29,6 +29,11 @@ Scene.prototype.selectScene = function(name) {
 		case "flowey":
 			document.getElementById("textbox").style.letterSpacing = "1px";
 			flowey.init();
+			break;
+		case "flowey_alt":
+			document.getElementById("textbox").style.letterSpacing = "1px";
+			flowey.queued_text = flowey.getIntroLine(data.runaway, data.escapes, data.deaths);
+			flowey.se = se_evilflowey;
 			break;
 		case "gameover":
 			document.getElementById("textbox").style.letterSpacing = "2px";
@@ -44,7 +49,8 @@ Scene.prototype.advanceOneFrame = function() {
 
 	this.scene_frames += 1;
 
-	if (this.scene_state == "flowey") {
+	if (this.scene_state == "flowey" ||
+		this.scene_state == "flowey_alt") {
 		flowey.advanceOneFrame();
 	} else if (this.scene_state == "tetris") {
 		tetrion.advanceOneFrame();
@@ -59,7 +65,7 @@ Scene.prototype.handleInput = function(input) {
 			document.getElementById("controlbox").style.display = "none";
 			this.selectScene("flowey");
 		}
-	} else if (this.scene_state == "flowey") {
+	} else if (this.scene_state == "flowey" || this.scene_state == "flowey_alt") {
 		if (input.dir == "down" && input.input == "A"){
 			flowey.advanceTextA();
 		} else if (input.dir == "down" && input.input == "B"){

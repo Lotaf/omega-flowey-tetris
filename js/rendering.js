@@ -24,7 +24,8 @@ function setup_graphics(){
 		p.loadImage("img/undertale_f_open_big-glitched5.png"),
 		p.loadImage("img/undertale_f_open_big-glitched6.png"),
 	];
-	var controls = p.loadImage("img/controls.png");
+	var gameover_banner = p.loadImage("img/gameover.png");
+	var hahahahahahahaha = p.loadImage("img/hahahahahahahaha.png");
 
     p.setup = function() {
         p.size(640, 480);
@@ -136,27 +137,6 @@ function setup_graphics(){
 		}
 	}
 
-	p.drawBrokenTetrion = function(t_pos) {
-
-		p.background(0);
-
-		for(var a = 0; a < 10; ++a){
-			for(var b = 0; b < 20; ++b){
-				var block = tetrion.getParticleAt(a, b);
-
-				p.pushMatrix();
-				p.translate(block.position.x + t_pos.x + 8, block.position.y + t_pos.y + 8);
-				p.rotate(block.rotation);
-
-				p.fill(piece_colours[block.color], block.brightness);
-                p.rect(-8, -8, 16, 16);
-
-				p.popMatrix();
-			}
-		}
-
-	};
-
 	p.drawIntroScene = function() {
 
 		var queued_text = [
@@ -206,6 +186,82 @@ function setup_graphics(){
 
 	};
 
+	p.drawBrokenTetrion = function(t_pos) {
+
+		p.background(0);
+
+		for(var a = 0; a < 10; ++a){
+			for(var b = 0; b < 20; ++b){
+				var block = tetrion.getParticleAt(a, b);
+
+				p.pushMatrix();
+				p.translate(block.position.x + t_pos.x + 8, block.position.y + t_pos.y + 8);
+				p.rotate(block.rotation);
+
+				p.fill(piece_colours[block.color], block.brightness);
+                p.rect(-8, -8, 16, 16);
+
+				p.popMatrix();
+			}
+		}
+
+	};
+
+	p.drawGameOver = function() {
+
+		p.background(0);
+
+		var queued_text = [
+			"\xa0\xa0\xa0You can make it\n\xa0\xa0\xa0through this game!",
+			"\xa0\xa0\xa0Nah, git gud scrub."
+		];
+
+		if (scene.scene_frames < 90) {
+
+			p.tint(255, scene.scene_frames * 3);
+			p.image(gameover_banner, 112, 50, 416, 156);
+
+			// change opacity
+		} else if (scene.scene_frames < 300) {
+
+			p.image(gameover_banner, 112, 50, 416, 156);
+
+			document.getElementById("textbox").innerHTML = queued_text[0].substr(0, (scene.scene_frames - 90) / 4);
+
+			if ((scene.scene_frames - 90) % 4 == 0 &&
+				(scene.scene_frames - 90) / 4 <= queued_text[0].length &&
+				isNotWhitespace(queued_text[0][(scene.scene_frames - 90) / 4 - 1]) ) se_flowey.play();
+
+		} else if (scene.scene_frames < 450) {
+
+			p.image(gameover_banner, 112, 50, 416, 156);
+
+			if (scene.scene_frames == 300) bgm_gameover.stop();
+			document.getElementById("textbox").innerHTML = queued_text[1].substr(0, (scene.scene_frames - 300) / 4);
+
+			if ((scene.scene_frames - 300) % 4 == 0 &&
+				(scene.scene_frames - 300) / 4 <= queued_text[1].length &&
+				isNotWhitespace(queued_text[1][(scene.scene_frames - 300) / 4 - 1]) ) se_evilflowey.play();
+
+		} else if (scene.scene_frames < 900) {
+
+			document.getElementById("textbox").innerHTML = "";
+			if (scene.scene_frames == 450) bgm_gameover2.play();
+
+			if (scene.scene_frames < 490) {
+				p.image(hahahahahahahaha, 0, 480 - (scene.scene_frames - 450) * 17);
+			} else {
+				p.image(hahahahahahahaha, 0, 0 - (((scene.scene_frames - 450) * 17) % 66));
+			}
+
+		} else {
+
+			window.close();
+
+		}
+
+	};
+
     p.draw = function() {
 
 		var t_pos = { x: 240, y: 120 };
@@ -223,7 +279,7 @@ function setup_graphics(){
 				p.drawBrokenTetrion(t_pos);
 			}
 		} else if (scene.scene_state == "gameover") {
-			p.drawGameOver(t_pos);
+			p.drawGameOver();
 		} else {
 			p.background(0); // blank
 		}

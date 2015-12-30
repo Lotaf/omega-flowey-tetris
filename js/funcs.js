@@ -23,3 +23,7 @@ function generateGarbledString(length) {
 	return str;
 
 }
+
+function isNotWhitespace(char) {
+	return char != " " && char != "\xa0" && char != undefined;
+}

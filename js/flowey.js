@@ -80,11 +80,11 @@ var flowey = new Flower();
 flowey.queued_text = [
 	// 4567890123456789012 <- 22 character limit
 	"Howdy!%1\nIt's me, FLOWEY!%1\nFLOWEY the FLOWER!",
-	"You're really some-\nthing, aren't you?",
-	"You couldn't get\nenough of that old\nfool Sans, so you came\n back for more.",
-	"Well I for one hate\nto disappoint my ad-\nmirers.",
-	"But I've got a diff-\nerent game in store\nfor you.",
+	"Boy, you're really\nsomething, aren't you?",
+	"You couldn't get enough\nof that old fool Sans,\nso you came back for more.",
+	"Well I for one hate to\ndisappoint my admirers.",
+	"But I've got a different\ngame in store for you.",
 	"No more dodging those\nstupid bullets.",
-	"I'm going to give you\na game that requires\nactual SKILL.",
-	"How do you feel about\n%2.%2.%2.%2Tetris?"
+	"I'm going to give you a\ngame that requires\nactual SKILL.",
+	"How do you feel about%1.%1.%1.%2 Tetris?"
 ]

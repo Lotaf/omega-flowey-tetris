@@ -20,12 +20,18 @@ function Scene() {
 Scene.prototype.selectScene = function(name) {
 
 	this.scene_state = name;
+	this.scene_frames = 0;
 
 	switch(name) {
 		case "intro":
 			bgm_intro.play();
 			break;
+		case "flowey":
+			document.getElementById("textbox").style.letterSpacing = "1px";
+			flowey.init();
+			break;
 		case "gameover":
+			document.getElementById("textbox").style.letterSpacing = "2px";
 			bgm_gameover.play();
 			break;
 		default:
@@ -51,8 +57,7 @@ Scene.prototype.handleInput = function(input) {
 	if (this.scene_state == "intro" && this.scene_frames >= 600) {
 		if (input.dir == "down" && input.input == "A"){
 			document.getElementById("controlbox").style.display = "none";
-			this.scene_state = "flowey";
-			flowey.init();
+			this.selectScene("flowey");
 		}
 	} else if (this.scene_state == "flowey") {
 		if (input.dir == "down" && input.input == "A"){

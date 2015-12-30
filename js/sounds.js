@@ -13,6 +13,15 @@ var bgm_gameover = new Howl({
 	loop: true,
 });
 
+// Flowey's laugh is produced using:
+// Gameover x3.00
+// Gameover x2.75
+// Gameover x2.50
+var bgm_gameover2 = new Howl({
+	src: ["audio/flowey_hahahahaha.ogg"],
+	loop: false,
+});
+
 
 var bgm_flowey_intro1 = new Howl({
 	src: ["audio/flowey_intro.ogg"],
